@@ -44,10 +44,10 @@ export function HeroSection() {
       {/* Hero text — drifts opposite the pointer to sell depth */}
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <div ref={textRef} className="text-center will-change-transform">
-          <h1 className="font-serif text-6xl md:text-8xl font-bold text-white tracking-tight">
+          <h1 className="font-serif text-6xl md:text-8xl font-bold text-black tracking-tight">
             Hero Title
           </h1>
-          <p className="mt-4 text-xl text-gray-300">Your subtitle goes here</p>
+          <p className="mt-4 text-xl text-black">Your subtitle goes here</p>
         </div>
       </div>
 
