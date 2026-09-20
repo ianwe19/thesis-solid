@@ -11,6 +11,12 @@ const TILT_Y = -0.2 // left/right
 // How lazily it settles: higher = snappier, lower = floatier.
 const SMOOTHING = 0.45
 
+// Intro sweep: deliberately lazier than SMOOTHING, so the arrival reads as a
+// set piece while mouse/scroll stay responsive. After INTRO_DURATION the
+// damping hands back to SMOOTHING (same targets, so the handoff is invisible).
+const SMOOTHING_INTRO = 1
+const INTRO_DURATION = 3 // seconds
+
 // Scroll recession: the page scroll already carries the canvas up out of the
 // window, so we push the model *up* in 3D to partially counteract it. It then
 // exits slower than the page and reads as a layer *behind* the text.
@@ -20,6 +26,7 @@ const SCROLL_LEAN = 0.35 // radians of extra lean-back at full scroll
 function Model({ onLoaded, scroll }: { onLoaded: () => void; scroll: RefObject<number> }) {
   const { scene } = useGLTF('/models/bulb_test.glb')
   const group = useRef<Group>(null)
+  const intro = useRef(0) // seconds elapsed in the intro phase
 
   // Re-runs if onLoaded's identity changes:
   useEffect(() => {
@@ -30,19 +37,24 @@ function Model({ onLoaded, scroll }: { onLoaded: () => void; scroll: RefObject<n
   useFrame((state, delta) => {
     const g = group.current
     if (!g) return
-    easing.damp(g.position, 'y', scroll.current * SCROLL_LIFT, SMOOTHING, delta)
+    intro.current = Math.min(intro.current + delta, INTRO_DURATION)
+    const smoothing = intro.current < INTRO_DURATION ? SMOOTHING_INTRO : SMOOTHING
+    easing.damp(g.position, 'y', scroll.current * SCROLL_LIFT, smoothing, delta)
     easing.damp(
       g.rotation,
       'x',
       -state.pointer.y * TILT_X - scroll.current * SCROLL_LEAN,
-      SMOOTHING,
+      smoothing,
       delta,
     )
-    easing.damp(g.rotation, 'y', state.pointer.x * TILT_Y, SMOOTHING, delta)
+    easing.damp(g.rotation, 'y', state.pointer.x * TILT_Y, smoothing, delta)
   })
 
+  // Intro: the group mounts (GLTF loaded, overlay about to lift) in its full
+  // recession state — above, leaning back — and the damping above sweeps it
+  // down to rest. The intro is the scroll exit, played in reverse.
   return (
-    <group ref={group}>
+    <group ref={group} position={[0, SCROLL_LIFT, 0]} rotation={[-SCROLL_LEAN, 0, 0]}>
       <primitive object={scene} />
     </group>
   )
