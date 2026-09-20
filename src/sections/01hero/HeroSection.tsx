@@ -45,7 +45,7 @@ export function HeroSection() {
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <div ref={textRef} className="text-center will-change-transform">
           <h1 className="font-serif text-6xl md:text-8xl font-bold text-black tracking-tight">
-            Hero Title
+            Something About Light
           </h1>
           <p className="mt-4 text-xl text-black">Your subtitle goes here</p>
         </div>
