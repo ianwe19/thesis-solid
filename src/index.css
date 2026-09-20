@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Space Grotesk Variable', system-ui, sans-serif;
+  --font-serif: 'Grenze Variable', system-ui, serif;
+  --font-sans: 'Manrope Variable', system-ui, sans-serif;
 }
 
 /* Reset and base styles */
