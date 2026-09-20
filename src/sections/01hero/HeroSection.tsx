@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
+import { useLenis } from 'lenis/react'
 import { HeroScene } from './HeroScene'
 
 // How far the hero text drifts (in px) when the mouse hits the screen edge.
@@ -10,6 +11,7 @@ const TEXT_DRIFT_Y = 1
 export function HeroSection() {
   const [loaded, setLoaded] = useState(false)
   const textRef = useRef<HTMLDivElement>(null)
+  const scroll = useRef(0) // 0 = top of page, 1 = scrolled fully past the hero
 
   // Mouse parallax for the DOM layer. We write style.transform directly
   // instead of using state: a setState on every mousemove would re-render
@@ -26,6 +28,14 @@ export function HeroSection() {
     return () => window.removeEventListener('mousemove', onMove)
   }, [])
 
+  // Scroll progress through the hero (the hero is exactly one viewport tall).
+  // useLenis runs this every frame while scrolling; we write the ref instead
+  // of state so the Canvas never re-renders. HeroScene reads the ref in its
+  // own render loop, where the easing happens.
+  useLenis((lenis) => {
+    scroll.current = Math.min(lenis.scroll / window.innerHeight, 1)
+  })
+
   return (
     <section className="relative w-full h-screen bg-black overflow-hidden">
       {/* 3D Canvas */}
@@ -36,7 +46,7 @@ export function HeroSection() {
           style={{ background: '#111' }}
         >
           <Suspense fallback={null}>
-            <HeroScene onLoaded={() => setLoaded(true)} />
+            <HeroScene onLoaded={() => setLoaded(true)} scroll={scroll} />
           </Suspense>
         </Canvas>
       </div>

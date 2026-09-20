@@ -1,7 +1,7 @@
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { easing } from 'maath'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type RefObject } from 'react'
 import type { Group } from 'three'
 
 // How far the model tilts (in radians) when the mouse hits the screen edge.
@@ -11,7 +11,13 @@ const TILT_Y = -0.2 // left/right
 // How lazily it settles: higher = snappier, lower = floatier.
 const SMOOTHING = 0.45
 
-function Model({ onLoaded }: { onLoaded: () => void }) {
+// Scroll recession: the page scroll already carries the canvas up out of the
+// window, so we push the model *up* in 3D to partially counteract it. It then
+// exits slower than the page and reads as a layer *behind* the text.
+const SCROLL_LIFT = 1.8 // world units of rise at full scroll
+const SCROLL_LEAN = 0.35 // radians of extra lean-back at full scroll
+
+function Model({ onLoaded, scroll }: { onLoaded: () => void; scroll: RefObject<number> }) {
   const { scene } = useGLTF('/models/bulb_test.glb')
   const group = useRef<Group>(null)
 
@@ -20,13 +26,18 @@ function Model({ onLoaded }: { onLoaded: () => void }) {
     onLoaded()
   }, [onLoaded])
 
-  // Mouse parallax: R3F keeps state.pointer in sync with the cursor
-  // (-1..1 across the canvas, y pointing up), so we don't need any
-  // manual mouse listeners here.
+  // Mouse parallax + scroll recession, both eased toward their targets each frame.
   useFrame((state, delta) => {
     const g = group.current
     if (!g) return
-    easing.damp(g.rotation, 'x', -state.pointer.y * TILT_X, SMOOTHING, delta)
+    easing.damp(g.position, 'y', scroll.current * SCROLL_LIFT, SMOOTHING, delta)
+    easing.damp(
+      g.rotation,
+      'x',
+      -state.pointer.y * TILT_X - scroll.current * SCROLL_LEAN,
+      SMOOTHING,
+      delta,
+    )
     easing.damp(g.rotation, 'y', state.pointer.x * TILT_Y, SMOOTHING, delta)
   })
 
@@ -37,11 +48,11 @@ function Model({ onLoaded }: { onLoaded: () => void }) {
   )
 }
 
-export function HeroScene({ onLoaded }: { onLoaded: () => void }) {
+export function HeroScene({ onLoaded, scroll }: { onLoaded: () => void; scroll: RefObject<number> }) {
   return (
     <>
       <ambientLight intensity={0.05} />
-      <Model onLoaded={onLoaded} />
+      <Model onLoaded={onLoaded} scroll={scroll} />
     </>
   )
 }
