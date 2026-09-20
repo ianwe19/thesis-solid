@@ -21,6 +21,11 @@ DOM + Three.js hybrids.
 
 - **Do not edit files directly.** Present changes as code blocks in chat; the user
   applies them themselves. Only write to files when the user explicitly asks you to.
+- **Present code as diffs, not whole files.** Give changed lines with line numbers
+  and diff markers (`+`/`-`) so the user can see exactly what's new or changed and
+  apply it in place. Only reproduce a full file for genuinely new files, or full
+  rewrites the user has approved — whole-file replacements hide what changed and
+  make it harder to learn from.
 - **Explain each change in one line** — the "why" matters as much as the code.
 - **Keep changes minimal and scoped.** No drive-by refactors, no unrequested
   abstractions or dependencies. If a change seems to require restructuring,
@@ -64,3 +69,16 @@ DOM + Three.js hybrids.
 
 Small, focused commits with messages that explain *why*. The initial commit
 establishes the baseline: project setup + hero (3D) + second section.
+
+## Documentation (live docs access)
+
+- Agents can read current documentation online (web search + page extraction).
+  Verified working: R3F docs (`r3f.docs.pmnd.rs`), drei docs
+  (`drei.docs.pmnd.rs`, e.g. `/loaders/gltf-use-gltf`), three.js docs.
+- Before using an API you're not confident about — especially the staged deps
+  (postprocessing, cannon) and drei helpers — check the current docs rather than
+  relying on training data.
+- For stable APIs already in use (e.g. `useFrame`, basic JSX elements), the
+  codebase is the source of truth; no need to re-verify.
+- If a docs URL fails to extract, fall back to searching for the correct path
+  or reading the source on GitHub.
