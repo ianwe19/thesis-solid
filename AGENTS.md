@@ -21,17 +21,21 @@ DOM + Three.js hybrids.
 
 - **Do not edit files directly.** Present changes as code blocks in chat; the user
   applies them themselves. Only write to files when the user explicitly asks you to.
-- **Present code as diffs, not whole files.** Give changed lines with line numbers
-  and diff markers (`+`/`-`) so the user can see exactly what's new or changed and
-  apply it in place. Only reproduce a full file for genuinely new files, or full
-  rewrites the user has approved — whole-file replacements hide what changed and
-  make it harder to learn from.
+- **Present code as clean, paste-ready blocks.** Code blocks contain only what the
+  user pastes — no line numbers or `+`/`-` markers inside. State the location in
+  prose before each block ("add after line N" / "replace lines N–M"); apply
+  bottom-up so line numbers stay valid. Only reproduce a full file for genuinely
+  new files, or full rewrites the user has approved.
 - **Explain each change in one line** — the "why" matters as much as the code.
 - **Keep changes minimal and scoped.** No drive-by refactors, no unrequested
   abstractions or dependencies. If a change seems to require restructuring,
   propose it first and wait for approval.
-- **Verify before declaring done:** `npm run lint` (must be zero problems) and
-  `npm run build` (the ~1.2 MB chunk warning from three.js is expected, not a failure).
+- **Don't remind the user to verify.** They run `npm run lint` and `npm run build`
+  at regular intervals; don't end responses with "run X and paste the output" or
+  offers to verify. When they do report results, the success bar is zero lint
+  problems and a clean build (the ~1.2 MB chunk warning from three.js is expected,
+  not a failure). When I write files directly (explicit request), I run both
+  myself before declaring done.
 
 ## Project conventions (established deliberately — do not "fix" these)
 
