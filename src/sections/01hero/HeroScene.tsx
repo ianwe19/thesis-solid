@@ -1,9 +1,9 @@
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
+import { Bloom, ChromaticAberration, EffectComposer, Noise, Scanline, ToneMapping, WaterEffect } from '@react-three/postprocessing'
+import { BlendFunction } from 'postprocessing'
 import { easing } from 'maath'
 import { ToneMappingMode } from 'postprocessing'
-
 import { useEffect, useRef, type RefObject } from 'react'
 import type { Group } from 'three'
 
@@ -73,11 +73,34 @@ export function HeroScene({ onLoaded, scroll }: { onLoaded: () => void; scroll: 
       <ambientLight intensity={0.05} />
       <Model onLoaded={onLoaded} scroll={scroll} />
       <EffectComposer>
-            {/* intensity = how strong the glow is
-            luminanceThreshold = what counts as bright enough to glow.
-            The library default of 1.0 glows nothing, so keep this below 1. So far I don't think this actually does anything
-            radius = how far the glow spreads */}
-        <Bloom mipmapBlur intensity={BLOOM_INTENSITY} luminanceThreshold={0.1} radius={0.5} />
+          {/* intensity = how strong the glow is
+          luminanceThreshold = what counts as bright enough to glow.
+          The library default of 1.0 glows nothing, so keep this below 1. So far I don't think this actually does anything
+          radius = how far the glow spreads */}
+        <Bloom
+          mipmapBlur 
+          intensity={BLOOM_INTENSITY} 
+          luminanceThreshold={0.1} 
+          radius={0.5} 
+        />
+        <Noise 
+            premultiply // enables or disables noise premultiplication
+            blendFunction={BlendFunction.ADD} // blend mode
+            opacity={.5}
+        />
+        <ChromaticAberration 
+          blendFunction={BlendFunction.NORMAL}
+          offset={[0.01, 0.001]}
+        />
+        <Scanline
+          blendFunction={BlendFunction.OVERLAY} // blend mode
+          density={200} // scanline density
+          opacity={0.1}
+        />
+        <WaterEffect
+          blendFunction={BlendFunction.NORMAL} // the blend function of this effect
+          factor={0.20} // the distortion strength
+        />
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
 
       </EffectComposer>
