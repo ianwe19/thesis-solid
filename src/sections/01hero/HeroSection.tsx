@@ -57,7 +57,7 @@ export function HeroSection() {
           <h1 className="font-serif text-6xl md:text-8xl font-bold text-black tracking-tight">
             Something About Light
           </h1>
-          <p className="mt-4 text-xl text-black">Your subtitle goes here</p>
+          <p className="mt-4 text-xl text-black">Working title</p>
         </div>
       </div>
 
