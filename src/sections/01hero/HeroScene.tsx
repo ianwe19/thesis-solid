@@ -1,6 +1,9 @@
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
+import { Bloom, EffectComposer, ToneMapping } from '@react-three/postprocessing'
 import { easing } from 'maath'
+import { ToneMappingMode } from 'postprocessing'
+
 import { useEffect, useRef, type RefObject } from 'react'
 import type { Group } from 'three'
 
@@ -22,6 +25,10 @@ const INTRO_DURATION = 3 // seconds
 // exits slower than the page and reads as a layer *behind* the text.
 const SCROLL_LIFT = 1.8 // world units of rise at full scroll
 const SCROLL_LEAN = 0.35 // radians of extra lean-back at full scroll
+
+// COMPOSITING
+// Bloom
+const BLOOM_INTENSITY = 5.0 // how strong the glow is
 
 function Model({ onLoaded, scroll }: { onLoaded: () => void; scroll: RefObject<number> }) {
   const { scene } = useGLTF('/models/bulb_test.glb')
@@ -65,6 +72,15 @@ export function HeroScene({ onLoaded, scroll }: { onLoaded: () => void; scroll: 
     <>
       <ambientLight intensity={0.05} />
       <Model onLoaded={onLoaded} scroll={scroll} />
+      <EffectComposer>
+            {/* intensity = how strong the glow is
+            luminanceThreshold = what counts as bright enough to glow.
+            The library default of 1.0 glows nothing, so keep this below 1. So far I don't think this actually does anything
+            radius = how far the glow spreads */}
+        <Bloom mipmapBlur intensity={BLOOM_INTENSITY} luminanceThreshold={0.1} radius={0.5} />
+        <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+
+      </EffectComposer>
     </>
   )
 }
