@@ -31,7 +31,7 @@ const SCROLL_LEAN = 0.35 // radians of extra lean-back at full scroll
 const BLOOM_INTENSITY = 5.0 // how strong the glow is
 
 function Model({ onLoaded, scroll }: { onLoaded: () => void; scroll: RefObject<number> }) {
-  const { scene } = useGLTF('/models/ico_sphere.glb')
+  const { scene } = useGLTF('./models/ico_sphere.glb')
   const { viewport } = useThree()
   const group = useRef<Group>(null)
   const intro = useRef(0) // seconds elapsed in the intro phase
