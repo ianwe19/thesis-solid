@@ -54,8 +54,8 @@ export function HeroSection() {
       {/* Hero text — drifts opposite the pointer to sell depth */}
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <div ref={textRef} className="text-center will-change-transform">
-          <h1 className="font-serif text-6xl md:text-8xl font-bold text-black tracking-tight">
-            Something About Light
+          <h1 className="text-8xl md:text-12xl font-black text-black tracking-tighter">
+            FIXTURE
           </h1>
           <p className="mt-4 text-xl text-black">Working title</p>
         </div>
@@ -65,7 +65,7 @@ export function HeroSection() {
       {!loaded && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-black">
           <span className="text-white/60 text-lg tracking-widest animate-pulse">
-            Loading…
+            LOADING
           </span>
         </div>
       )}
