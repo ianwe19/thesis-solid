@@ -17,8 +17,8 @@ const SMOOTHING = 0.45
 // Intro sweep: deliberately lazier than SMOOTHING, so the arrival reads as a
 // set piece while mouse/scroll stay responsive. After INTRO_DURATION the
 // damping hands back to SMOOTHING (same targets, so the handoff is invisible).
-const SMOOTHING_INTRO = 1
-const INTRO_DURATION = 3 // seconds
+const SMOOTHING_INTRO = 1.75
+const INTRO_DURATION = 5.5 // seconds
 
 // Scroll recession: the page scroll already carries the canvas up out of the
 // window, so we push the model *up* in 3D to partially counteract it. It then
