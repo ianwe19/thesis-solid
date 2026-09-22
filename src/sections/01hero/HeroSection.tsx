@@ -5,8 +5,8 @@ import { HeroScene } from './HeroScene'
 
 // How far the hero text drifts (in px) when the mouse hits the screen edge.
 // Negative = opposite the mouse, so it reads as a layer *in front of* the model.
-const TEXT_DRIFT_X = -1
-const TEXT_DRIFT_Y = 1
+const TEXT_DRIFT_X = -3
+const TEXT_DRIFT_Y = 3
 
 export function HeroSection() {
   const [loaded, setLoaded] = useState(false)
