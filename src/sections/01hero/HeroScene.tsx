@@ -1,6 +1,6 @@
 import { useGLTF } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Bloom, ChromaticAberration, Depth, DepthOfField, EffectComposer, HueSaturation, Noise, Scanline, ToneMapping, WaterEffect } from '@react-three/postprocessing'
+import { Bloom, ChromaticAberration, DepthOfField, EffectComposer, HueSaturation, Noise, Scanline, ToneMapping, WaterEffect } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import { easing } from 'maath'
 import { ToneMappingMode } from 'postprocessing'
@@ -31,7 +31,7 @@ const SCROLL_LEAN = 0.35 // radians of extra lean-back at full scroll
 const BLOOM_INTENSITY = 5.0 // how strong the glow is
 
 function Model({ onLoaded, scroll }: { onLoaded: () => void; scroll: RefObject<number> }) {
-  const { scene } = useGLTF('/models/bulb_test.glb')
+  const { scene } = useGLTF('/models/ico_sphere.glb')
   const { viewport } = useThree()
   const group = useRef<Group>(null)
   const intro = useRef(0) // seconds elapsed in the intro phase
@@ -62,7 +62,7 @@ function Model({ onLoaded, scroll }: { onLoaded: () => void; scroll: RefObject<n
   // recession state — above, leaning back — and the damping above sweeps it
   // down to rest. The intro is the scroll exit, played in reverse.
   return (
-    <group ref={group} scale={viewport.width / 3} position={[0, SCROLL_LIFT, 0]} rotation={[-SCROLL_LEAN, 0, 0]}>
+    <group ref={group} scale={viewport.width / 4} position={[0, SCROLL_LIFT, 0]} rotation={[-SCROLL_LEAN, 0, 0]}>
       <primitive object={scene} />
     </group>
   )
