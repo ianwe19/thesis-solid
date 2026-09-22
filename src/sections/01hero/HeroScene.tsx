@@ -1,6 +1,6 @@
 import { useGLTF } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Bloom, ChromaticAberration, EffectComposer, Noise, Scanline, ToneMapping, WaterEffect } from '@react-three/postprocessing'
+import { Bloom, ChromaticAberration, Depth, DepthOfField, EffectComposer, HueSaturation, Noise, Scanline, ToneMapping, WaterEffect } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import { easing } from 'maath'
 import { ToneMappingMode } from 'postprocessing'
@@ -82,16 +82,27 @@ export function HeroScene({ onLoaded, scroll }: { onLoaded: () => void; scroll: 
           mipmapBlur 
           intensity={BLOOM_INTENSITY} 
           luminanceThreshold={0.1} 
+          luminanceSmoothing={.01}
           radius={0.5} 
+        />
+        <ChromaticAberration 
+          blendFunction={BlendFunction.NORMAL}
+          offset={[0.01, 0.001]}
+        />
+        <HueSaturation
+          blendFunction={BlendFunction.NORMAL}
+          hue={-0.1}
+          saturation={-0.1}
+        />
+        <DepthOfField
+          focusDistance={0}
+          focalLength={0.6}
+          bokehScale={20}
         />
         <Noise 
             premultiply // enables or disables noise premultiplication
             blendFunction={BlendFunction.ADD} // blend mode
             opacity={.5}
-        />
-        <ChromaticAberration 
-          blendFunction={BlendFunction.NORMAL}
-          offset={[0.01, 0.001]}
         />
         <Scanline
           blendFunction={BlendFunction.OVERLAY} // blend mode
@@ -100,7 +111,7 @@ export function HeroScene({ onLoaded, scroll }: { onLoaded: () => void; scroll: 
         />
         <WaterEffect
           blendFunction={BlendFunction.NORMAL} // the blend function of this effect
-          factor={0.20} // the distortion strength
+          factor={0.3} // the distortion strength
         />
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
 
