@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: 'Grenze Variable', system-ui, serif;
+  --font-serif: 'Ancizar Serif Variable', 'Grenze Variable', system-ui, serif;
   --font-sans: 'Manrope Variable', system-ui, sans-serif;
 }
 
