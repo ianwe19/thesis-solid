@@ -20,7 +20,9 @@ DOM + Three.js hybrids.
 ## Working agreements (important)
 
 - **Do not edit files directly.** Present changes as code blocks in chat; the user
-  applies them themselves. Only write to files when the user explicitly asks you to.
+  applies them themselves. You may write to files **only if the prompt contains the
+  exact phrase "go ahead and edit."** A stated goal or intent ("I want to create X")
+  is not permission.
 - **Present code as clean, paste-ready blocks.** Code blocks contain only what the
   user pastes — no line numbers or `+`/`-` markers inside. State the location in
   prose before each block ("add after line N" / "replace lines N–M"); apply
@@ -34,8 +36,8 @@ DOM + Three.js hybrids.
   at regular intervals; don't end responses with "run X and paste the output" or
   offers to verify. When they do report results, the success bar is zero lint
   problems and a clean build (the ~1.2 MB chunk warning from three.js is expected,
-  not a failure). When I write files directly (explicit request), I run both
-  myself before declaring done.
+  not a failure). When I write files directly (per the exception above), I run
+  both myself before declaring done.
 
 ## Project conventions (established deliberately — do not "fix" these)
 
