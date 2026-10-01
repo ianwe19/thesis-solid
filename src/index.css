@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'BBB Sprat Condensed';
+  src: url('./assets/fonts/BBBSprat-CondensedRegular.woff2') format('woff2');
+  font-display: swap;
+}
+
 @theme {
-  --font-serif: 'Ancizar Serif Variable', 'Grenze Variable', system-ui, serif;
+  --font-serif: 'BBB Sprat Condensed', 'Ancizar Serif Variable', 'Grenze Variable', system-ui, serif;
   --font-sans: 'Manrope Variable', system-ui, sans-serif;
 }
 
