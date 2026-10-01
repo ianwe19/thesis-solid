@@ -74,10 +74,6 @@ export function HeroScene({ onLoaded, scroll }: { onLoaded: () => void; scroll: 
       <ambientLight intensity={0.05} />
       <Model onLoaded={onLoaded} scroll={scroll} />
       <EffectComposer>
-          {/* intensity = how strong the glow is
-          luminanceThreshold = what counts as bright enough to glow.
-          The library default of 1.0 glows nothing, so keep this below 1. So far I don't think this actually does anything
-          radius = how far the glow spreads */}
         <Bloom
           mipmapBlur 
           intensity={BLOOM_INTENSITY} 
