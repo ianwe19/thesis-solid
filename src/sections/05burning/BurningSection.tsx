@@ -42,7 +42,7 @@ export function BurningSection() {
       {/* Hero text — drifts opposite the pointer to sell depth */}
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <div ref={textRef} className="text-center will-change-transform">
-          <h1 className="text-8xl md:text-12xl font-[1000] text-white tracking-tighter">
+          <h1 className="text-8xl md:text-9xl font-[1000] text-white tracking-tighter">
             FIXTURE
           </h1>
           <p className="mt-4 text-xl text-white">Working title</p>
