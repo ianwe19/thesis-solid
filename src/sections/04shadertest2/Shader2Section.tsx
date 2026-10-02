@@ -11,6 +11,7 @@ export function Shader2Section() {
       <div className="absolute inset-0 z-0">
         <Canvas
           frameloop={frameloop}
+          dpr={1} // fixed 640x360 pattern: a retina 2x buffer re-draws the same pixels 4x over — no quality gained, only cost
           camera={{ position: [0, 0, 5], fov: 45 }}
           gl={{ antialias: true, alpha: false }}
           style={{ background: '#000' }}

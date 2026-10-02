@@ -34,6 +34,7 @@ export function BurningSection() {
       <div className="absolute inset-0 z-0">
         <Canvas
           frameloop={frameloop}
+          dpr={1} // same 640x360 pattern, heavier FBM: a retina 2x buffer is pure extra work
           camera={{ position: [0, 0, 5], fov: 45 }}
           gl={{ antialias: true, alpha: false }}
           style={{ background: "#000" }}
