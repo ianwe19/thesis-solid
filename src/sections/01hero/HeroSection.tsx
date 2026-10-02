@@ -2,6 +2,7 @@ import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { useLenis } from 'lenis/react'
 import { HeroScene } from './HeroScene'
+import { useSectionFrameloop } from '../../components/ui/useSectionFrameloop'
 
 // How far the hero text drifts (in px) when the mouse hits the screen edge.
 // Negative = opposite the mouse, so it reads as a layer *in front of* the model.
@@ -12,6 +13,7 @@ export function HeroSection() {
   const [loaded, setLoaded] = useState(false)
   const textRef = useRef<HTMLDivElement>(null)
   const scroll = useRef(0) // 0 = top of page, 1 = scrolled fully past the hero
+  const [sectionRef, frameloop] = useSectionFrameloop() // "never" once the hero is off-screen — stops its GPU work
 
   // Mouse parallax for the DOM layer. We write style.transform directly
   // instead of using state: a setState on every mousemove would re-render
@@ -37,10 +39,11 @@ export function HeroSection() {
   })
 
   return (
-    <section className="relative w-full h-screen bg-black overflow-hidden">
+    <section ref={sectionRef} className="relative w-full h-screen bg-black overflow-hidden">
       {/* 3D Canvas */}
       <div className="absolute inset-0 z-0">
         <Canvas
+          frameloop={frameloop}
           camera={{ position: [0, 0, 5], fov: 45 }}
           gl={{ antialias: true, alpha: false }}
           style={{ background: '#111' }}
