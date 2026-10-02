@@ -71,6 +71,58 @@ DOM + Three.js hybrids.
 | `npm run preview` | Serve the production build locally               |
 | `npm run lint`    | ESLint (must stay clean)                         |
 
+## Toolkit (token-efficient tooling)
+
+Principle: give the agent the **smallest amount of information needed for the
+next correct decision**. Each tool has one job — pick the one that matches the
+question, keep its output bounded, and stop once you have enough to act.
+
+### Choose the tool by the type of information you need
+
+| You need…                          | Use                                                 |
+| ---------------------------------- | --------------------------------------------------- |
+| a string / identifier / error text | `rtk rg "term" src/`                                |
+| files by name or path pattern      | `fd 'pattern' src/`                                 |
+| a code construct / syntax pattern  | `rtk ast-grep run --pattern '<p>' --lang tsx src/`  |
+| who defines / references a symbol  | Serena — **not installed**; fall back to `rtk rg`   |
+| one field from a JSON document     | `jq '.field' file.json`                             |
+| one field from a YAML document     | `yq '.field' file.yml`                              |
+| a GitHub PR / issue / Actions run  | `rtk gh pr list`                                    |
+| git status / a diff                | `rtk git status` · `rtk diff`                        |
+
+**RTK** is a prefix wrapper that shrinks command output before it reaches the
+context. It has compact forms for `rg`, `ast-grep`, `find`, `git`, `gh`, `read`,
+`diff`, `json`, `ls`, `log` and accepts any other command as a passthrough.
+`fd` / `jq` / `yq` are already selective — run them directly. (`rtk init -g`
+optionally installs a global hook that auto-wraps commands.)
+
+### Locate before you read
+
+Find the file (`fd`) or the line (`rg`) first, then read only the relevant range.
+Never `cat` or read a whole file to find one line, and never read a whole
+JSON/YAML document when `jq` / `yq` can pull a single field.
+
+### Tools for the human, not the agent
+
+`bat`, `delta`, `fzf` are for the terminal (highlighting, interactive fuzzy
+selection). Don't reach for them autonomously — an agent wants deterministic,
+bounded output, which `rg` / `fd` / `jq` give.
+
+### Stopping rules (the biggest lever)
+
+- Stop searching once enough evidence exists to act.
+- Don't open extra files "for completeness."
+- Don't re-run a search that already succeeded with another tool.
+- Don't keep exploring after you've found the relevant implementation.
+- After a successful verification, stop — unless more is clearly justified.
+
+An agent with ten good tools still wastes context if it uses all ten just because
+they exist. Use the minimum that answers the question.
+
+**Session-level controls** (set by the user, not selected per query): Headroom
+trims carried context, Caveman keeps the agent terse, and Ponytail keeps
+implementations minimal. They cut token use independently of the tools above.
+
 ## Git
 
 Small, focused commits with messages that explain *why*. The initial commit
