@@ -46,6 +46,7 @@ export function HeroSection() {
           frameloop={frameloop}
           camera={{ position: [0, 0, 5], fov: 45 }}
           gl={{ antialias: true, alpha: false }}
+          dpr={1.25} // cap at 1x: the 8-pass post chain is the page's heaviest GPU work; retina 2x = 4x the pixels, mostly blur
           style={{ background: '#111' }}
         >
           <Suspense fallback={null}>
