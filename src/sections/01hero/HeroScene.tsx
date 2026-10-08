@@ -1,6 +1,6 @@
 import { useGLTF } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import { Bloom, ChromaticAberration, DepthOfField, EffectComposer, HueSaturation, Noise, Scanline, ToneMapping, WaterEffect } from '@react-three/postprocessing'
+import { Bloom, ColorDepth, ChromaticAberration, DepthOfField, EffectComposer, HueSaturation, Noise, Scanline, ToneMapping, WaterEffect } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import { easing } from 'maath'
 import { ToneMappingMode } from 'postprocessing'
@@ -109,7 +109,12 @@ export function HeroScene({ onLoaded, scroll }: { onLoaded: () => void; scroll: 
           blendFunction={BlendFunction.NORMAL} // the blend function of this effect
           factor={0.3} // the distortion strength
         />
-        <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+        <ToneMapping
+          mode={ToneMappingMode.ACES_FILMIC}
+        />
+        <ColorDepth
+          bits={6} // posterize effect
+        />
 
       </EffectComposer>
     </>
