@@ -96,9 +96,9 @@ export function HeroScene({ onLoaded, scroll }: { onLoaded: () => void; scroll: 
           bokehScale={20}
         />
         <Noise 
-            premultiply // enables or disables noise premultiplication
-            blendFunction={BlendFunction.ADD} // blend mode
-            opacity={.5}
+          premultiply // enables or disables noise premultiplication
+          blendFunction={BlendFunction.ADD} // blend mode
+          opacity={.5}
         />
         <Scanline
           blendFunction={BlendFunction.OVERLAY} // blend mode
